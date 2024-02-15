@@ -4,17 +4,13 @@ using RocketseatAuction.API.UseCases.Auction.GetCurrent;
 
 namespace RocketseatAuction.API.Controllers;
 
-[Route("[controller]")]
-[ApiController]
-public class AuctionController : ControllerBase
+public class AuctionController : RocketseatAuctionBaseController
 {
     [HttpGet]
     [ProducesResponseType(typeof(Auction), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult GetCurreentAuction()
+    public IActionResult GetCurreentAuction([FromServices] GetCurrentAuctionUseCase useCase)
     {
-        var useCase = new GetCurrentAuctionUseCase();
-
         var result = useCase.Execute();
 
         if (result is null)
@@ -22,4 +18,5 @@ public class AuctionController : ControllerBase
 
         return Ok(result);
     }
+
 }
